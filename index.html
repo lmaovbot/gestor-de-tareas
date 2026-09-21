@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestor de Tareas</title>
+</head>
+<body>
+  <h1>Gestor de Tareas de Estudio</h1>
+
+  <form id="formTarea">
+    <input type="text" id="inputTarea" placeholder="Nombre de la tarea...">
+    <button type="submit">Agregar</button>
+  </form>
+    <ul id ="lista"></ul>
+ <script>
+
+    const CLAVE = "tareas";
+
+    function cargarTareas() {
+      const guardado = localStorage.getItem(CLAVE);
+      if (guardado) {
+        return JSON.parse(guardado);
+      } else {
+        return [];
+      }
+    }
+
+    function guardarTareas(tareas) {
+      localStorage.setItem(CLAVE, JSON.stringify(tareas));
+    }
+
+    function agregarTarea(nombre) {
+      nombre = nombre.trim();
+      if (nombre === "") {
+        return;
+      }
+
+      const tareas = cargarTareas();
+      tareas.push({ nombre: nombre, completada: false });
+      guardarTareas(tareas);
+    }
+
+    function mostrarTareas() {
+        const tareas = cargarTareas();
+        const lista = document.getElementById("lista");
+
+        lista.innerHTML = "";
+
+        for (let i = 0; i < tareas.length; i++) {
+            const tarea = tareas[i];
+            const item = document.createElement("li");
+
+            const boton = document.createElement("button");
+            boton.textContent = tarea.completada ? "✅" : "⬜";
+            boton.onclick = function() {
+              completarTarea(i);
+            };
+
+            const botonBorrar = document.createElement("button");
+            botonBorrar.textContent = "🗑️";
+            botonBorrar.onclick = function() {
+                eliminarTarea(i);
+            }
+
+            const texto = document.createElement("span");
+            texto.textContent = tarea.nombre;
+            if (tarea.completada) {
+              texto.style.textDecoration = "line-through";
+            }
+
+            item.appendChild(boton);
+            item.appendChild(texto);
+            item.appendChild(botonBorrar);
+            lista.appendChild(item);
+        }
+    }
+
+    function completarTarea(indice) {
+        const tareas = cargarTareas();
+        tareas[indice].completada = true;
+        guardarTareas(tareas);
+        mostrarTareas();
+    }
+
+    function eliminarTarea(indice) {
+        const tareas = cargarTareas();
+        tareas.splice(indice , 1);
+        guardarTareas(tareas);
+        mostrarTareas();
+    }
+    
+
+    document.getElementById("formTarea").addEventListener("submit", function(evento) {
+      evento.preventDefault();
+
+      const input = document.getElementById("inputTarea");
+      agregarTarea(input.value);
+      input.value = "";
+      mostrarTareas();
+    });
+
+    mostrarTareas();
+
+  </script>
+</body>
+</html>
