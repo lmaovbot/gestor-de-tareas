@@ -2,16 +2,122 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Gestor de Tareas</title>
+  <title>📒 Gestor de Tareas</title>
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    html {
+        min-height: 100%;
+        background-image: url("https://i.pinimg.com/736x/3a/d4/1d/3ad41dfa35add2279674d1ed87a20c26.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+    
+    h1 {
+        color : #000000;
+        font-size: 24px;
+    }
+
+    form {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 20px;
+    }
+
+    #inputTarea{
+        flex : 1;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    button{
+        padding: 10px 16px;
+        border: none;
+        border-radius: 4px;
+        background-color: #e90303;
+        color: white;
+        cursor: pointer;
+        font-size: 14px;
+    }
+    button:hover{
+        background-color: #45a049
+    }
+    
+    button.completar{
+        background-color: #45a049;
+    }
+    button.borrar {
+        background-color: #e90303;
+    }
+        
+    ul{
+        list-style: none;
+        padding: 0;
+    }
+    
+    li  {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background-color: white;
+        padding: 10px;
+        margin-bottom: 8px;
+        border-radius: 4px;
+        border: 1px solid white;
+    }
+
+    li span{
+        flex: 1;
+    }
+
+    .esquina-izquierda {
+        position: fixed;
+        bottom: 0px;
+        left: 0px;
+        width: 200px;
+    }
+
+    .esquina-derecha {
+        position: fixed;
+        bottom: 0px;
+        right: 0px;
+        width: 250px;
+    }
+    .medio-abajo{
+        position: fixed;
+        bottom: 5px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 200px;
+    }
+    #contenedor {
+        max-width: 500px;
+        margin: 40px auto;
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 20px;
+        border-radius: 8px;
+    }
+  </style>
 </head>
+
 <body>
-  <h1>Gestor de Tareas de Estudio</h1>
+    <div id ="contenedor">
+  <h1>📚 Gestor de Tareas de Estudio</h1>
 
   <form id="formTarea">
     <input type="text" id="inputTarea" placeholder="Nombre de la tarea...">
     <button type="submit">Agregar</button>
   </form>
     <ul id ="lista"></ul>
+ </div>
+    <img src = "https://i.pinimg.com/736x/16/f9/6a/16f96aab0a58bdcc42b7945fc4f847ba.jpg" alt = "niño en algun lugar" class = "esquina-izquierda">
+    <img src = "https://i.pinimg.com/1200x/8a/f7/51/8af751ec32bfa5acb2c5f560829a63f9.jpg" alt = "niño " class = "esquina-derecha">
+    <img src = "https://i.pinimg.com/736x/cf/80/4c/cf804c19fae2abb33ac26082902caf05.jpg" alt = "medio " class = "medio-abajo">
  <script>
 
     const CLAVE = "tareas";
@@ -52,12 +158,14 @@
 
             const boton = document.createElement("button");
             boton.textContent = tarea.completada ? "✅" : "⬜";
+            boton.classList.add("completar");
             boton.onclick = function() {
               completarTarea(i);
             };
 
             const botonBorrar = document.createElement("button");
             botonBorrar.textContent = "🗑️";
+            botonBorrar.classList.add("borrar");
             botonBorrar.onclick = function() {
                 eliminarTarea(i);
             }
@@ -100,6 +208,7 @@
     });
 
     mostrarTareas();
+    
 
   </script>
 </body>
